@@ -22,7 +22,7 @@ import (
 	"fmt"
 
 	"zntr.io/vaultify/logical"
-	vpath "zntr.io/vaultify/path"
+	vaultpath "zntr.io/vaultify/path"
 )
 
 type kvv1Backend struct {
@@ -41,13 +41,13 @@ func V1(l logical.Logical, mountPath string) Service {
 // -----------------------------------------------------------------------------
 func (s *kvv1Backend) List(ctx context.Context, path string) ([]string, error) {
 	// Clean path first
-	secretPath := vpath.SanitizePath(path)
+	secretPath := vaultpath.SanitizePath(path)
 	if secretPath == "" {
 		return nil, fmt.Errorf("unable to query with empty path")
 	}
 
 	// Create logical client
-	secret, err := s.logical.List(secretPath)
+	secret, err := s.logical.ListWithContext(ctx, secretPath)
 	if err != nil {
 		return nil, fmt.Errorf("unable to list secret keys: %w", err)
 	}
@@ -83,13 +83,13 @@ func (s *kvv1Backend) List(ctx context.Context, path string) ([]string, error) {
 
 func (s *kvv1Backend) Read(ctx context.Context, path string) (SecretData, SecretMetadata, error) {
 	// Clean path first
-	secretPath := vpath.SanitizePath(path)
+	secretPath := vaultpath.SanitizePath(path)
 	if secretPath == "" {
 		return nil, nil, fmt.Errorf("unable to query with empty path")
 	}
 
 	// Create a logical client
-	secret, err := s.logical.Read(secretPath)
+	secret, err := s.logical.ReadWithContext(ctx, secretPath)
 	if err != nil {
 		return nil, nil, fmt.Errorf("unable to retrieve secret for path '%s': %w", path, err)
 	}
@@ -114,7 +114,7 @@ func (s *kvv1Backend) Write(ctx context.Context, path string, data SecretData) e
 
 func (s *kvv1Backend) WriteWithMeta(ctx context.Context, path string, data SecretData, meta SecretMetadata) error {
 	// Clean path first
-	secretPath := vpath.SanitizePath(path)
+	secretPath := vaultpath.SanitizePath(path)
 	if secretPath == "" {
 		return fmt.Errorf("unable to query with empty path")
 	}
@@ -125,7 +125,7 @@ func (s *kvv1Backend) WriteWithMeta(ctx context.Context, path string, data Secre
 	}
 
 	// Create a logical client
-	_, err := s.logical.Write(secretPath, data)
+	_, err := s.logical.WriteWithContext(ctx, secretPath, data)
 	if err != nil {
 		return fmt.Errorf("unable to write secret data for path '%s': %w", path, err)
 	}

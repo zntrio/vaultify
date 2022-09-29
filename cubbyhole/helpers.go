@@ -18,6 +18,7 @@
 package cubbyhole
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -27,12 +28,12 @@ import (
 )
 
 // addToCubbyhole inserts the secrets in a cubbyhole and returns a response-wrapping token
-func addToCubbyhole(v logical.Logical, mountPath, secret string) (string, error) {
+func addToCubbyhole(ctx context.Context, v logical.Logical, mountPath, secret string) (string, error) {
 	// Generate a path
-	secretPath := fmt.Sprintf("%s/vaultify/%s/%d", mountPath, uniuri.NewLen(64), time.Now().UnixNano())
+	secretPath := fmt.Sprintf("%s/%s/%d", mountPath, uniuri.NewLen(64), time.Now().UnixNano())
 
 	// Insert the secret
-	_, err := v.Write(secretPath, map[string]interface{}{
+	_, err := v.WriteWithContext(ctx, secretPath, map[string]interface{}{
 		"s": secret,
 	})
 	if err != nil {
@@ -40,7 +41,7 @@ func addToCubbyhole(v logical.Logical, mountPath, secret string) (string, error)
 	}
 
 	// Read again to get a wrapped token
-	s, err := v.Read(secretPath)
+	s, err := v.ReadWithContext(ctx, secretPath)
 	if err != nil {
 		return "", fmt.Errorf("unable to read the secret : %w", err)
 	}
@@ -50,9 +51,9 @@ func addToCubbyhole(v logical.Logical, mountPath, secret string) (string, error)
 }
 
 // unWrap unwraps the received token and returns the secret as a string
-func unWrap(v logical.Logical, token string) (string, error) {
+func unWrap(ctx context.Context, v logical.Logical, token string) (string, error) {
 	// Unwrap the given token
-	s, err := v.Unwrap(token)
+	s, err := v.UnwrapWithContext(ctx, token)
 	if err != nil {
 		return "", err
 	}

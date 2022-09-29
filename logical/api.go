@@ -17,18 +17,22 @@
 
 package logical
 
-import "github.com/hashicorp/vault/api"
+import (
+	"context"
+
+	"github.com/hashicorp/vault/api"
+)
 
 //go:generate mockgen -destination logical.mock.go -package logical zntr.io/vaultify/logical Logical
 
 // Logical backend interface
 type Logical interface {
-	Read(path string) (*api.Secret, error)
-	ReadWithData(path string, data map[string][]string) (*api.Secret, error)
-	Write(path string, data map[string]interface{}) (*api.Secret, error)
-	WriteBytes(path string, data []byte) (*api.Secret, error)
-	List(path string) (*api.Secret, error)
-	Unwrap(token string) (*api.Secret, error)
-	Delete(path string) (*api.Secret, error)
-	DeleteWithData(path string, data map[string][]string) (*api.Secret, error)
+	ReadWithContext(ctx context.Context, path string) (*api.Secret, error)
+	ReadWithDataWithContext(ctx context.Context, path string, data map[string][]string) (*api.Secret, error)
+	WriteWithContext(ctx context.Context, path string, data map[string]interface{}) (*api.Secret, error)
+	WriteBytesWithContext(ctx context.Context, path string, data []byte) (*api.Secret, error)
+	ListWithContext(ctx context.Context, path string) (*api.Secret, error)
+	UnwrapWithContext(ctx context.Context, token string) (*api.Secret, error)
+	DeleteWithContext(ctx context.Context, path string) (*api.Secret, error)
+	DeleteWithDataWithContext(ctx context.Context, path string, data map[string][]string) (*api.Secret, error)
 }

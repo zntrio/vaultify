@@ -5,6 +5,7 @@
 package logical
 
 import (
+	context "context"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
@@ -34,122 +35,122 @@ func (m *MockLogical) EXPECT() *MockLogicalMockRecorder {
 	return m.recorder
 }
 
-// Delete mocks base method.
-func (m *MockLogical) Delete(arg0 string) (*api.Secret, error) {
+// DeleteWithContext mocks base method.
+func (m *MockLogical) DeleteWithContext(arg0 context.Context, arg1 string) (*api.Secret, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", arg0)
+	ret := m.ctrl.Call(m, "DeleteWithContext", arg0, arg1)
 	ret0, _ := ret[0].(*api.Secret)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Delete indicates an expected call of Delete.
-func (mr *MockLogicalMockRecorder) Delete(arg0 interface{}) *gomock.Call {
+// DeleteWithContext indicates an expected call of DeleteWithContext.
+func (mr *MockLogicalMockRecorder) DeleteWithContext(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockLogical)(nil).Delete), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteWithContext", reflect.TypeOf((*MockLogical)(nil).DeleteWithContext), arg0, arg1)
 }
 
-// DeleteWithData mocks base method.
-func (m *MockLogical) DeleteWithData(arg0 string, arg1 map[string][]string) (*api.Secret, error) {
+// DeleteWithDataWithContext mocks base method.
+func (m *MockLogical) DeleteWithDataWithContext(arg0 context.Context, arg1 string, arg2 map[string][]string) (*api.Secret, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteWithData", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteWithDataWithContext", arg0, arg1, arg2)
 	ret0, _ := ret[0].(*api.Secret)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// DeleteWithData indicates an expected call of DeleteWithData.
-func (mr *MockLogicalMockRecorder) DeleteWithData(arg0, arg1 interface{}) *gomock.Call {
+// DeleteWithDataWithContext indicates an expected call of DeleteWithDataWithContext.
+func (mr *MockLogicalMockRecorder) DeleteWithDataWithContext(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteWithData", reflect.TypeOf((*MockLogical)(nil).DeleteWithData), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteWithDataWithContext", reflect.TypeOf((*MockLogical)(nil).DeleteWithDataWithContext), arg0, arg1, arg2)
 }
 
-// List mocks base method.
-func (m *MockLogical) List(arg0 string) (*api.Secret, error) {
+// ListWithContext mocks base method.
+func (m *MockLogical) ListWithContext(arg0 context.Context, arg1 string) (*api.Secret, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", arg0)
+	ret := m.ctrl.Call(m, "ListWithContext", arg0, arg1)
 	ret0, _ := ret[0].(*api.Secret)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// List indicates an expected call of List.
-func (mr *MockLogicalMockRecorder) List(arg0 interface{}) *gomock.Call {
+// ListWithContext indicates an expected call of ListWithContext.
+func (mr *MockLogicalMockRecorder) ListWithContext(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockLogical)(nil).List), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListWithContext", reflect.TypeOf((*MockLogical)(nil).ListWithContext), arg0, arg1)
 }
 
-// Read mocks base method.
-func (m *MockLogical) Read(arg0 string) (*api.Secret, error) {
+// ReadWithContext mocks base method.
+func (m *MockLogical) ReadWithContext(arg0 context.Context, arg1 string) (*api.Secret, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Read", arg0)
+	ret := m.ctrl.Call(m, "ReadWithContext", arg0, arg1)
 	ret0, _ := ret[0].(*api.Secret)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Read indicates an expected call of Read.
-func (mr *MockLogicalMockRecorder) Read(arg0 interface{}) *gomock.Call {
+// ReadWithContext indicates an expected call of ReadWithContext.
+func (mr *MockLogicalMockRecorder) ReadWithContext(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Read", reflect.TypeOf((*MockLogical)(nil).Read), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadWithContext", reflect.TypeOf((*MockLogical)(nil).ReadWithContext), arg0, arg1)
 }
 
-// ReadWithData mocks base method.
-func (m *MockLogical) ReadWithData(arg0 string, arg1 map[string][]string) (*api.Secret, error) {
+// ReadWithDataWithContext mocks base method.
+func (m *MockLogical) ReadWithDataWithContext(arg0 context.Context, arg1 string, arg2 map[string][]string) (*api.Secret, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadWithData", arg0, arg1)
+	ret := m.ctrl.Call(m, "ReadWithDataWithContext", arg0, arg1, arg2)
 	ret0, _ := ret[0].(*api.Secret)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ReadWithData indicates an expected call of ReadWithData.
-func (mr *MockLogicalMockRecorder) ReadWithData(arg0, arg1 interface{}) *gomock.Call {
+// ReadWithDataWithContext indicates an expected call of ReadWithDataWithContext.
+func (mr *MockLogicalMockRecorder) ReadWithDataWithContext(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadWithData", reflect.TypeOf((*MockLogical)(nil).ReadWithData), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadWithDataWithContext", reflect.TypeOf((*MockLogical)(nil).ReadWithDataWithContext), arg0, arg1, arg2)
 }
 
-// Unwrap mocks base method.
-func (m *MockLogical) Unwrap(arg0 string) (*api.Secret, error) {
+// UnwrapWithContext mocks base method.
+func (m *MockLogical) UnwrapWithContext(arg0 context.Context, arg1 string) (*api.Secret, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Unwrap", arg0)
+	ret := m.ctrl.Call(m, "UnwrapWithContext", arg0, arg1)
 	ret0, _ := ret[0].(*api.Secret)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Unwrap indicates an expected call of Unwrap.
-func (mr *MockLogicalMockRecorder) Unwrap(arg0 interface{}) *gomock.Call {
+// UnwrapWithContext indicates an expected call of UnwrapWithContext.
+func (mr *MockLogicalMockRecorder) UnwrapWithContext(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unwrap", reflect.TypeOf((*MockLogical)(nil).Unwrap), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnwrapWithContext", reflect.TypeOf((*MockLogical)(nil).UnwrapWithContext), arg0, arg1)
 }
 
-// Write mocks base method.
-func (m *MockLogical) Write(arg0 string, arg1 map[string]interface{}) (*api.Secret, error) {
+// WriteBytesWithContext mocks base method.
+func (m *MockLogical) WriteBytesWithContext(arg0 context.Context, arg1 string, arg2 []byte) (*api.Secret, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Write", arg0, arg1)
+	ret := m.ctrl.Call(m, "WriteBytesWithContext", arg0, arg1, arg2)
 	ret0, _ := ret[0].(*api.Secret)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Write indicates an expected call of Write.
-func (mr *MockLogicalMockRecorder) Write(arg0, arg1 interface{}) *gomock.Call {
+// WriteBytesWithContext indicates an expected call of WriteBytesWithContext.
+func (mr *MockLogicalMockRecorder) WriteBytesWithContext(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Write", reflect.TypeOf((*MockLogical)(nil).Write), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteBytesWithContext", reflect.TypeOf((*MockLogical)(nil).WriteBytesWithContext), arg0, arg1, arg2)
 }
 
-// WriteBytes mocks base method.
-func (m *MockLogical) WriteBytes(arg0 string, arg1 []byte) (*api.Secret, error) {
+// WriteWithContext mocks base method.
+func (m *MockLogical) WriteWithContext(arg0 context.Context, arg1 string, arg2 map[string]interface{}) (*api.Secret, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WriteBytes", arg0, arg1)
+	ret := m.ctrl.Call(m, "WriteWithContext", arg0, arg1, arg2)
 	ret0, _ := ret[0].(*api.Secret)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// WriteBytes indicates an expected call of WriteBytes.
-func (mr *MockLogicalMockRecorder) WriteBytes(arg0, arg1 interface{}) *gomock.Call {
+// WriteWithContext indicates an expected call of WriteWithContext.
+func (mr *MockLogicalMockRecorder) WriteWithContext(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteBytes", reflect.TypeOf((*MockLogical)(nil).WriteBytes), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteWithContext", reflect.TypeOf((*MockLogical)(nil).WriteWithContext), arg0, arg1, arg2)
 }

@@ -19,20 +19,47 @@ package transit
 
 import (
 	"context"
+	"crypto"
 )
 
 // Encryptor describes encryption operations contract.
-type Encrypter interface {
+type Encryptor interface {
 	Encrypt(ctx context.Context, cleartext []byte) ([]byte, error)
 }
 
 // Decryptor describes decryption operations contract.
-type Decrypter interface {
+type Decryptor interface {
 	Decrypt(ctx context.Context, encrypted []byte) ([]byte, error)
+}
+
+// Signer represents signature creation operations contract.
+type Signer interface {
+	Sign(ctx context.Context, protected []byte) ([]byte, error)
+}
+
+// Verifier represents signature verification operations contract.
+type Verifier interface {
+	Verify(ctx context.Context, protected, signature []byte) error
+}
+
+// PublicKeyExporter represents public key operations contract.
+type PublicKeyExporter interface {
+	PublicKey(ctx context.Context) (crypto.PublicKey, error)
 }
 
 // Service represents the Vault Transit backend operation service contract.
 type Service interface {
-	Encrypter
-	Decrypter
+	Encryptor
+	Decryptor
+	Signer
+	Verifier
+	PublicKeyExporter
 }
+
+type keyType int
+
+const (
+	keyTypeRsa keyType = iota
+	keyTypeEd25519
+	keyTypeEcdsa
+)

@@ -25,7 +25,7 @@ import (
 	"github.com/hashicorp/vault/api"
 
 	"zntr.io/vaultify/logical"
-	vpath "zntr.io/vaultify/path"
+	vaultpath "zntr.io/vaultify/path"
 )
 
 type kvv2Backend struct {
@@ -46,13 +46,13 @@ func V2(l logical.Logical, mountPath string, customMetadataEnabled bool) Service
 // -----------------------------------------------------------------------------
 func (s *kvv2Backend) List(ctx context.Context, path string) ([]string, error) {
 	// Check arguments
-	secretPath := vpath.SanitizePath(path)
+	secretPath := vaultpath.SanitizePath(path)
 	if secretPath == "" {
 		return nil, fmt.Errorf("unable to query with empty path")
 	}
 
 	// Create logical client
-	secret, err := s.logical.List(vpath.AddPrefixToVKVPath(secretPath, s.mountPath, "metadata"))
+	secret, err := s.logical.ListWithContext(ctx, vaultpath.AddPrefixToVKVPath(secretPath, s.mountPath, "metadata"))
 	if err != nil {
 		return nil, fmt.Errorf("unable to list secret keys: %w", err)
 	}
@@ -92,7 +92,7 @@ func (s *kvv2Backend) Read(ctx context.Context, path string) (SecretData, Secret
 
 func (s *kvv2Backend) ReadVersion(ctx context.Context, path string, version uint32) (SecretData, SecretMetadata, error) {
 	// Clean path first
-	secretPath := vpath.SanitizePath(path)
+	secretPath := vaultpath.SanitizePath(path)
 	if secretPath == "" {
 		return nil, nil, fmt.Errorf("unable to query with empty path")
 	}
@@ -109,9 +109,9 @@ func (s *kvv2Backend) ReadVersion(ctx context.Context, path string, version uint
 			"version": {fmt.Sprintf("%d", version)},
 		}
 
-		secret, err = s.logical.ReadWithData(vpath.AddPrefixToVKVPath(secretPath, s.mountPath, "data"), versionParam)
+		secret, err = s.logical.ReadWithDataWithContext(ctx, vaultpath.AddPrefixToVKVPath(secretPath, s.mountPath, "data"), versionParam)
 	} else {
-		secret, err = s.logical.Read(vpath.AddPrefixToVKVPath(secretPath, s.mountPath, "data"))
+		secret, err = s.logical.ReadWithContext(ctx, vaultpath.AddPrefixToVKVPath(secretPath, s.mountPath, "data"))
 	}
 	if err != nil {
 		return nil, nil, fmt.Errorf("unable to retrieve secret for path '%s': %w", path, err)
@@ -140,7 +140,7 @@ func (s *kvv2Backend) ReadVersion(ctx context.Context, path string, version uint
 
 	// Custom metadata enabled => retrieve secret meatadata.
 	if s.customMetadataEnabled {
-		rawMeta, errMeta := s.logical.Read(vpath.AddPrefixToVKVPath(secretPath, s.mountPath, "metadata"))
+		rawMeta, errMeta := s.logical.ReadWithContext(ctx, vaultpath.AddPrefixToVKVPath(secretPath, s.mountPath, "metadata"))
 		if errMeta != nil {
 			return nil, nil, fmt.Errorf("unable to extract secret metadata for path '%s': %w", path, errMeta)
 		}
@@ -169,7 +169,7 @@ func (s *kvv2Backend) Write(ctx context.Context, path string, data SecretData) e
 
 func (s *kvv2Backend) WriteWithMeta(ctx context.Context, path string, data SecretData, meta SecretMetadata) error {
 	// Clean path first
-	secretPath := vpath.SanitizePath(path)
+	secretPath := vaultpath.SanitizePath(path)
 	if secretPath == "" {
 		return fmt.Errorf("unable to query with empty path")
 	}
@@ -200,7 +200,7 @@ func (s *kvv2Backend) WriteWithMeta(ctx context.Context, path string, data Secre
 	}
 
 	// Write data
-	_, err := s.logical.Write(vpath.AddPrefixToVKVPath(secretPath, s.mountPath, "data"), map[string]interface{}{
+	_, err := s.logical.WriteWithContext(ctx, vaultpath.AddPrefixToVKVPath(secretPath, s.mountPath, "data"), map[string]interface{}{
 		"data": data,
 	})
 	if err != nil {
@@ -209,7 +209,7 @@ func (s *kvv2Backend) WriteWithMeta(ctx context.Context, path string, data Secre
 
 	// Write metadata
 	if s.customMetadataEnabled && len(meta) > 0 {
-		_, err := s.logical.Write(vpath.AddPrefixToVKVPath(secretPath, s.mountPath, "metadata"), map[string]interface{}{
+		_, err := s.logical.WriteWithContext(ctx, vaultpath.AddPrefixToVKVPath(secretPath, s.mountPath, "metadata"), map[string]interface{}{
 			"custom_metadata": meta,
 		})
 		if err != nil {

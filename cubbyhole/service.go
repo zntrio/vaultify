@@ -55,8 +55,9 @@ const (
 )
 
 // Put a secret in cubbyhole to retrieve a wrapping token.
+//
 //nolint:interfacer // -- wants to replace time.Duration by fmt.Stringer
-func (s *service) Put(_ context.Context, r io.Reader) (string, error) {
+func (s *service) Put(ctx context.Context, r io.Reader) (string, error) {
 	// Encode secret
 	payload, err := io.ReadAll(io.LimitReader(r, secretSizeLimit))
 	if err != nil {
@@ -67,13 +68,13 @@ func (s *service) Put(_ context.Context, r io.Reader) (string, error) {
 	final := base64.StdEncoding.EncodeToString(snappy.Encode(nil, payload))
 
 	// Add to cubbyhole
-	return addToCubbyhole(s.logical, s.mountPath, final)
+	return addToCubbyhole(ctx, s.logical, s.mountPath, final)
 }
 
 // Get a secret from wrapping token.
-func (s *service) Get(_ context.Context, token string, w io.Writer) error {
+func (s *service) Get(ctx context.Context, token string, w io.Writer) error {
 	// Unwrap token
-	encoded, err := unWrap(s.logical, token)
+	encoded, err := unWrap(ctx, s.logical, token)
 	if err != nil {
 		return err
 	}

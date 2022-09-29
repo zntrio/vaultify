@@ -57,7 +57,7 @@ func Test_KVV2_List(t *testing.T) {
 				path: "secrets/application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().List("secrets/metadata/application/foo").Return(&vaultApi.Secret{}, fmt.Errorf("foo"))
+				logical.EXPECT().ListWithContext(gomock.Any(), "secrets/metadata/application/foo").Return(&vaultApi.Secret{}, fmt.Errorf("foo"))
 			},
 			wantErr: true,
 		},
@@ -68,7 +68,7 @@ func Test_KVV2_List(t *testing.T) {
 				path: "secrets/application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().List("secrets/metadata/application/foo").Return(nil, nil)
+				logical.EXPECT().ListWithContext(gomock.Any(), "secrets/metadata/application/foo").Return(nil, nil)
 			},
 			wantErr: false,
 		},
@@ -79,7 +79,7 @@ func Test_KVV2_List(t *testing.T) {
 				path: "secrets/application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().List("secrets/metadata/application/foo").Return(&vaultApi.Secret{
+				logical.EXPECT().ListWithContext(gomock.Any(), "secrets/metadata/application/foo").Return(&vaultApi.Secret{
 					Data: nil,
 				}, nil)
 			},
@@ -92,7 +92,7 @@ func Test_KVV2_List(t *testing.T) {
 				path: "secrets/application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().List("secrets/metadata/application/foo").Return(&vaultApi.Secret{
+				logical.EXPECT().ListWithContext(gomock.Any(), "secrets/metadata/application/foo").Return(&vaultApi.Secret{
 					Data: SecretData{},
 				}, nil)
 			},
@@ -105,7 +105,7 @@ func Test_KVV2_List(t *testing.T) {
 				path: "secrets/application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().List("secrets/metadata/application/foo").Return(&vaultApi.Secret{
+				logical.EXPECT().ListWithContext(gomock.Any(), "secrets/metadata/application/foo").Return(&vaultApi.Secret{
 					Data: SecretData{
 						"keys": 1,
 					},
@@ -120,7 +120,7 @@ func Test_KVV2_List(t *testing.T) {
 				path: "    /secrets/application/foo/   ",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().List("secrets/metadata/application/foo").Return(&vaultApi.Secret{
+				logical.EXPECT().ListWithContext(gomock.Any(), "secrets/metadata/application/foo").Return(&vaultApi.Secret{
 					Data: SecretData{
 						"keys": []interface{}{},
 					},
@@ -136,7 +136,7 @@ func Test_KVV2_List(t *testing.T) {
 				path: "secrets/application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().List("secrets/metadata/application/foo").Return(&vaultApi.Secret{
+				logical.EXPECT().ListWithContext(gomock.Any(), "secrets/metadata/application/foo").Return(&vaultApi.Secret{
 					Data: SecretData{
 						"keys": []interface{}{"secrets/application/foo/secret-1", "secrets/application/foo/secret-2"},
 					},
@@ -204,7 +204,7 @@ func Test_KVV2_Read(t *testing.T) {
 				path: "application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().Read("secrets/data/application/foo").Return(&vaultApi.Secret{}, fmt.Errorf("foo"))
+				logical.EXPECT().ReadWithContext(gomock.Any(), "secrets/data/application/foo").Return(&vaultApi.Secret{}, fmt.Errorf("foo"))
 			},
 			wantErr: true,
 		},
@@ -215,7 +215,7 @@ func Test_KVV2_Read(t *testing.T) {
 				path: "application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().Read("secrets/data/application/foo").Return(nil, nil)
+				logical.EXPECT().ReadWithContext(gomock.Any(), "secrets/data/application/foo").Return(nil, nil)
 			},
 			wantErr: true,
 		},
@@ -226,7 +226,7 @@ func Test_KVV2_Read(t *testing.T) {
 				path: "application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().Read("secrets/data/application/foo").Return(&vaultApi.Secret{
+				logical.EXPECT().ReadWithContext(gomock.Any(), "secrets/data/application/foo").Return(&vaultApi.Secret{
 					Data: nil,
 				}, nil)
 			},
@@ -239,7 +239,7 @@ func Test_KVV2_Read(t *testing.T) {
 				path: "application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().Read("secrets/data/application/foo").Return(&vaultApi.Secret{
+				logical.EXPECT().ReadWithContext(gomock.Any(), "secrets/data/application/foo").Return(&vaultApi.Secret{
 					Data: map[string]interface{}{},
 				}, nil)
 			},
@@ -252,7 +252,7 @@ func Test_KVV2_Read(t *testing.T) {
 				path: "application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().Read("secrets/data/application/foo").Return(&vaultApi.Secret{
+				logical.EXPECT().ReadWithContext(gomock.Any(), "secrets/data/application/foo").Return(&vaultApi.Secret{
 					Data: map[string]interface{}{
 						"data": nil,
 					},
@@ -267,7 +267,7 @@ func Test_KVV2_Read(t *testing.T) {
 				path: "application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().Read("secrets/data/application/foo").Return(&vaultApi.Secret{
+				logical.EXPECT().ReadWithContext(gomock.Any(), "secrets/data/application/foo").Return(&vaultApi.Secret{
 					Data: map[string]interface{}{
 						"data": map[string]interface{}{
 							"key": "value",
@@ -340,7 +340,7 @@ func Test_KVV2_WriteData(t *testing.T) {
 				path: "application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().Write("secrets/data/application/foo", gomock.Any()).Return(&vaultApi.Secret{}, fmt.Errorf("foo"))
+				logical.EXPECT().WriteWithContext(gomock.Any(), "secrets/data/application/foo", gomock.Any()).Return(&vaultApi.Secret{}, fmt.Errorf("foo"))
 			},
 			wantErr: true,
 		},
@@ -351,7 +351,7 @@ func Test_KVV2_WriteData(t *testing.T) {
 				path: "application/foo",
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().Write("secrets/data/application/foo", gomock.Any()).Return(&vaultApi.Secret{
+				logical.EXPECT().WriteWithContext(gomock.Any(), "secrets/data/application/foo", gomock.Any()).Return(&vaultApi.Secret{
 					Data: SecretData{
 						"key": "value",
 					},
@@ -463,7 +463,7 @@ func Test_KVV2_WriteWithMeta(t *testing.T) {
 				},
 			},
 			prepare: func(logical *logical.MockLogical) {
-				logical.EXPECT().Write("secrets/data/application/foo", gomock.Any()).Return(&vaultApi.Secret{}, fmt.Errorf("foo"))
+				logical.EXPECT().WriteWithContext(gomock.Any(), "secrets/data/application/foo", gomock.Any()).Return(&vaultApi.Secret{}, fmt.Errorf("foo"))
 			},
 			wantErr: true,
 		},
@@ -477,12 +477,12 @@ func Test_KVV2_WriteWithMeta(t *testing.T) {
 				},
 			},
 			prepare: func(logical *logical.MockLogical) {
-				dataWrite := logical.EXPECT().Write("secrets/data/application/foo", gomock.Any()).Return(&vaultApi.Secret{
+				dataWrite := logical.EXPECT().WriteWithContext(gomock.Any(), "secrets/data/application/foo", gomock.Any()).Return(&vaultApi.Secret{
 					Data: SecretData{
 						"key": "value",
 					},
 				}, nil)
-				logical.EXPECT().Write("secrets/metadata/application/foo", gomock.Any()).Return(&vaultApi.Secret{}, fmt.Errorf("foo")).After(dataWrite)
+				logical.EXPECT().WriteWithContext(gomock.Any(), "secrets/metadata/application/foo", gomock.Any()).Return(&vaultApi.Secret{}, fmt.Errorf("foo")).After(dataWrite)
 			},
 			wantErr: true,
 		},
@@ -496,12 +496,12 @@ func Test_KVV2_WriteWithMeta(t *testing.T) {
 				},
 			},
 			prepare: func(logical *logical.MockLogical) {
-				dataWrite := logical.EXPECT().Write("secrets/data/application/foo", gomock.Any()).Return(&vaultApi.Secret{
+				dataWrite := logical.EXPECT().WriteWithContext(gomock.Any(), "secrets/data/application/foo", gomock.Any()).Return(&vaultApi.Secret{
 					Data: SecretData{
 						"key": "value",
 					},
 				}, nil)
-				logical.EXPECT().Write("secrets/metadata/application/foo", gomock.Any()).Return(&vaultApi.Secret{
+				logical.EXPECT().WriteWithContext(gomock.Any(), "secrets/metadata/application/foo", gomock.Any()).Return(&vaultApi.Secret{
 					Data: SecretData{
 						"key": "value",
 					},

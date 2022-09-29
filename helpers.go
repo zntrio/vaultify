@@ -18,6 +18,7 @@
 package vaultify
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/hashicorp/vault/api"
@@ -27,12 +28,14 @@ import (
 
 // CheckAuthentication verifies that the connection to vault is setup correctly
 // by retrieving information about the configured token
-func CheckAuthentication(client *api.Client) ([]string, error) {
-	tokenInfo, tokenErr := client.Auth().Token().LookupSelf()
+func CheckAuthentication(ctx context.Context, client *api.Client) ([]string, error) {
+	// Lookup token information
+	tokenInfo, tokenErr := client.Auth().Token().LookupSelfWithContext(ctx)
 	if tokenErr != nil {
 		return nil, fmt.Errorf("error connecting to vault: %w", tokenErr)
 	}
 
+	// Retrieve token policies
 	tokenPolicies, polErr := tokenInfo.TokenPolicies()
 	if polErr != nil {
 		return nil, fmt.Errorf("error looking up token policies: %w", tokenErr)
